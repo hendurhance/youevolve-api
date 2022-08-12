@@ -1,7 +1,7 @@
 {
-  "name": "ts-api",
+  "name": "youevolve-api",
   "version": "1.0.0",
-  "description": "A simple restful api built with Node, Express, Typescript and MongoDB",
+  "description": "Youevolve e-commerce restful api built with Node, Express, Typescript and MongoDB",
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
