@@ -1,6 +1,6 @@
-import { object, string } from 'zod'
+import { TypeOf, object, string } from 'zod'
 
-export const createUserRequest = object({
+export const createUserValidation = object({
     body: object({
         name: string({
             required_error: 'Name is required and cannot be empty.'
@@ -14,8 +14,13 @@ export const createUserRequest = object({
         email: string({
             required_error: 'Email is required and cannot be empty.'
         }).email('Please enter a valid email address in the email field')
-    }).refine((data) => data.password = data.passwordConfirmation, {
+    }).refine((data) => data.password === data.passwordConfirmation, {
         message: 'Passwords do not match.',
         path: ['passwordConfirmation'],
     })
 })
+
+export  type CreateUserInput = Omit<
+TypeOf<typeof createUserValidation>, 
+"body.passwordConfirmation"
+>

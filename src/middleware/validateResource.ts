@@ -8,8 +8,9 @@ export const validate = (schema: AnyZodObject) => (req: Request, res: Response, 
             body: req.body,
             params: req.params,
             query: req.query
-        })
-    }catch(err: any) {
+        });
+        next();
+    } catch (err: any) {
         res.status(STATUS_CODES.BAD_REQUEST).send(err.errors)
     }
 }
