@@ -7,7 +7,6 @@ const requireUser = (req: Request, res: Response, next: NextFunction) => {
 
     if(!user){
         return res.sendStatus(STATUS_CODES.FORBIDDEN)
-        return next()
     }
 
     return next();

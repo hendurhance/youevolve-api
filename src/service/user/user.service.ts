@@ -1,4 +1,4 @@
-import {DocumentDefinition} from 'mongoose'
+import { DocumentDefinition, FilterQuery } from 'mongoose';
 import { UserInterface } from '../../contracts/user.interface';
 import { UserModel } from '../../models/user/user.model';
 import { omit } from 'lodash';
@@ -22,4 +22,8 @@ export async function validatePassword({email, password}:{email: string, passwor
     if(!isValid) return false
 
     return omit(user.toJSON(), ['password'])
+}
+
+export async function findUser(query: FilterQuery<UserInterface>) {
+    return UserModel.findOne(query).lean()
 }
