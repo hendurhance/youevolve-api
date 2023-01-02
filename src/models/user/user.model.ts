@@ -5,7 +5,7 @@ import { UserInterface } from '../../contracts/user.interface';
 import { UserSchema } from '../../schema/user.schema';
 
 
-UserSchema.pre('save', async function (next: mongoose.HookNextFunction) {
+UserSchema.pre('save', async function (next) {
     let user = this as UserInterface;
 
     if (user.isModified('password')) {
@@ -20,8 +20,13 @@ UserSchema.pre('save', async function (next: mongoose.HookNextFunction) {
         next()
     }
 
-
 })
+
+UserSchema.methods.comparePassword = async function(candidatePassword: string): Promise<boolean> {
+    const user = this as UserInterface;
+
+    return bcrypt.compare(candidatePassword, user.password).catch(e => false)
+}
 
 export const UserModel = mongoose.model('User', UserSchema)
 

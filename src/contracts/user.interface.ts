@@ -6,4 +6,5 @@ export interface UserInterface extends mongoose.Document {
     password: string;
     createdAt: Date;
     updatedAt: Date;
+    comparePassword(candidatePassword: string): Promise<boolean>
 }
