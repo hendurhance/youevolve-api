@@ -6,10 +6,10 @@ import { createUserValidation } from '../validations/user/user.validation';
 import { createUserSessionHandler, deleteSessionHandler, getUserSessionHandler } from "../controller/user/session.controller";
 import { createSessionValidation } from "../validations/user/session.validation";
 import requireUser from '../middleware/requireUser';
-import { createCategoryValidation, updateCategoryValidation, getCategoryValidation, deleteCategoryValidation, getCategoryProductsValidation } from '../validations/category/category.validation';
-import { createCategoryHandler, deleteCategoryHandler, getAllCategoryHandler, getCategoryHandler, updateCategoryHandler } from "../controller/category/category.controller";
-import { createProductValidation } from '../validations/product/product.validation';
-import { createProductHandler } from "../controller/product/product.controller";
+import { createCategoryValidation, updateCategoryValidation, getCategoryValidation, deleteCategoryValidation } from '../validations/category/category.validation';
+import { createCategoryHandler, deleteCategoryHandler, getAllCategoryHandler, getCategoryHandler, getProductsByCategoryHandler, updateCategoryHandler } from "../controller/category/category.controller";
+import { createProductValidation, updateProductValidation, getProductValidation, deleteProductValidation } from '../validations/product/product.validation';
+import { createProductHandler, deleteProductHandler, getAllProductHandler, getProductHandler, updateProductHandler } from "../controller/product/product.controller";
 export const routes = (app: Express) => {
 
     app.get('/test', (req: Request, res: Response) => {
@@ -36,16 +36,18 @@ export const routes = (app: Express) => {
 
     app.delete('/api/categories/:categoryId', [requireUser, validate(deleteCategoryValidation)], deleteCategoryHandler)
 
+    app.get('/api/categories/:categoryId/products', [validate(getCategoryValidation)], getProductsByCategoryHandler)
+
+
     // Product Routes
     app.post('/api/products', [requireUser, validate(createProductValidation)], createProductHandler)
 
-    app.put('/api/products/:productId', [requireUser, validate(updateCategoryValidation)], updateCategoryHandler)
+    app.get('/api/products', getAllProductHandler)
 
-    app.get('/api/products/:productId', [validate(getCategoryValidation)], getCategoryHandler)
+    app.put('/api/products/:productId', [requireUser, validate(updateProductValidation)], updateProductHandler)
 
-    app.get('/api/products/:productId', [validate(getCategoryValidation)], getCategoryHandler)
+    app.get('/api/products/:productId', [validate(getProductValidation)], getProductHandler)
 
-    app.delete('/api/products/:productId', [requireUser, validate(deleteCategoryValidation)], deleteCategoryHandler)
-
+    app.delete('/api/products/:productId', [requireUser, validate(deleteProductValidation)], deleteProductHandler)
 
 }

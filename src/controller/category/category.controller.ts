@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { CreateCategoryInput, UpdateCategoryInput, ReadCategoryInput } from '../../validations/category/category.validation';
+import { CreateCategoryInput, UpdateCategoryInput, ReadCategoryInput, DeleteCategoryInput } from '../../validations/category/category.validation';
 import { createCategory, deleteCategory, findAndUpdateCategory, findCategory, getCategories } from '../../service/category/category.service';
+import { findProductsByCategory } from '../../service/product/product.service';
 import { STATUS_CODES } from '../../utils/status';
 
 
@@ -47,7 +48,19 @@ export async function getCategoryHandler(req: Request<ReadCategoryInput['params'
     return res.send(category)
 }
 
-export async function deleteCategoryHandler(req: Request<UpdateCategoryInput['params']>, res: Response) {
+export async function getProductsByCategoryHandler(req: Request<ReadCategoryInput['params']>, res: Response) {
+
+    const categoryId = req.params.categoryId
+
+    const category = await findCategory({categoryId})
+    if(!category) return res.sendStatus(STATUS_CODES.NOT_FOUND)
+
+    const products = await findProductsByCategory(category._id)
+    return res.send(products)
+    
+}
+
+export async function deleteCategoryHandler(req: Request<DeleteCategoryInput['params']>, res: Response) {
     const userId = res.locals.user._id
     
     const categoryId = req.params.categoryId
