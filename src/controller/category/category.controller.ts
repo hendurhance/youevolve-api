@@ -1,22 +1,54 @@
 import { Request, Response } from 'express';
+import { CreateCategoryInput, UpdateCategoryInput } from '../../validations/category/category.validation';
+import { createCategory, deleteCategory, findAndUpdateCategory, findCategory } from '../../service/category/category.service';
+import { STATUS_CODES } from '../../utils/status';
 
 
-export async function createProductHandler(req: Request, res: Response) {
+export async function createCategoryHandler(req: Request<{}, {}, CreateCategoryInput['body']>, res: Response) {
+    const userId = res.locals.user._id
 
+    const body = req.body
+    const category = await createCategory({...body, user: userId})
+    return res.send(category)
+}
+
+export async function updateCategoryHandler(req: Request<UpdateCategoryInput['params']>, res: Response) {
+    
+    const userId = res.locals.user._id
+    
+    const categoryId = req.params.categoryId
+    const update = req.body
+
+    const category = await findCategory({categoryId})
+    if(!category) return res.sendStatus(STATUS_CODES.NOT_FOUND)
+    if(String(category.user) !== userId) return res.sendStatus(STATUS_CODES.UNAUTHORIZED)
+    const updatedCategory = await findAndUpdateCategory({ categoryId }, update, {
+        new: true,
+    })
+
+    return res.send(updatedCategory)
     
 }
 
-export async function updateProductHandler(req: Request, res: Response) {
-    
-    
+export async function getCategoryHandler(req: Request<UpdateCategoryInput['params']>, res: Response) {
+
+    const categoryId = req.params.categoryId
+
+    const category = await findCategory({categoryId})
+    if(!category) return res.sendStatus(STATUS_CODES.NOT_FOUND)
+
+    return res.send(category)
 }
 
-export async function getProductHandler(req: Request, res: Response) {
+export async function deleteCategoryHandler(req: Request<UpdateCategoryInput['params']>, res: Response) {
+    const userId = res.locals.user._id
     
-    
-}
+    const categoryId = req.params.categoryId
 
-export async function deleteProductHandler(req: Request, res: Response) {
-    
-    
+    const category = await findCategory({categoryId})
+    if(!category) return res.sendStatus(STATUS_CODES.NOT_FOUND)
+    if(String(category.user) !== userId) return res.sendStatus(STATUS_CODES.UNAUTHORIZED)
+    await deleteCategory({categoryId})
+
+    return res.sendStatus(STATUS_CODES.NO_CONTENT)
 }

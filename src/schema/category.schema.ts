@@ -8,7 +8,7 @@ export const CategorySchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        default: () => `category_${nanoid}`
+        default: () => `category_${nanoid()}`
     },
     user: {
         type: mongoose.Schema.Types.ObjectId, 

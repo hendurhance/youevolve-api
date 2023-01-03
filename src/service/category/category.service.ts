@@ -4,7 +4,7 @@ import { CategoryModel } from '../../models/category/category.model';
 
 
 export async function createCategory(input: DocumentDefinition<Omit<CategoryInterface, 'createdAt' | 'updatedAt'>>) {
-    CategoryModel.create(input)
+    return CategoryModel.create(input)
 }
 
 export async function findCategory(
