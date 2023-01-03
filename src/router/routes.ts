@@ -20,4 +20,11 @@ export const routes = (app: Express) => {
 
     app.delete('/api/sessions', requireUser, deleteSessionHandler)
 
+    app.delete('/api/sessions', requireUser, deleteSessionHandler)
+
+    app.delete('/api/sessions', requireUser, deleteSessionHandler)
+    
+    app.delete('/api/sessions', requireUser, deleteSessionHandler)
+
+
 }
