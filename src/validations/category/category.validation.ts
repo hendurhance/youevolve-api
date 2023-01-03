@@ -33,6 +33,7 @@ export const getCategoryValidation = object({
     ...params
 })
 
+
 export type CreateCategoryInput = TypeOf<typeof createCategoryValidation>
 export type UpdateCategoryInput = TypeOf<typeof updateCategoryValidation>
 export type ReadCategoryInput = TypeOf<typeof getCategoryValidation>

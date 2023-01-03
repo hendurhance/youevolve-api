@@ -6,8 +6,10 @@ import { createUserValidation } from '../validations/user/user.validation';
 import { createUserSessionHandler, deleteSessionHandler, getUserSessionHandler } from "../controller/user/session.controller";
 import { createSessionValidation } from "../validations/user/session.validation";
 import requireUser from '../middleware/requireUser';
-import { createCategoryValidation, updateCategoryValidation, getCategoryValidation, deleteCategoryValidation } from '../validations/category/category.validation';
-import { createCategoryHandler, deleteCategoryHandler, getCategoryHandler, updateCategoryHandler } from "../controller/category/category.controller";
+import { createCategoryValidation, updateCategoryValidation, getCategoryValidation, deleteCategoryValidation, getCategoryProductsValidation } from '../validations/category/category.validation';
+import { createCategoryHandler, deleteCategoryHandler, getAllCategoryHandler, getCategoryHandler, updateCategoryHandler } from "../controller/category/category.controller";
+import { createProductValidation } from '../validations/product/product.validation';
+import { createProductHandler } from "../controller/product/product.controller";
 export const routes = (app: Express) => {
 
     app.get('/test', (req: Request, res: Response) => {
@@ -28,9 +30,22 @@ export const routes = (app: Express) => {
 
     app.put('/api/categories/:categoryId', [requireUser, validate(updateCategoryValidation)], updateCategoryHandler)
 
+    app.get('/api/categories', getAllCategoryHandler)
+
     app.get('/api/categories/:categoryId', [validate(getCategoryValidation)], getCategoryHandler)
 
     app.delete('/api/categories/:categoryId', [requireUser, validate(deleteCategoryValidation)], deleteCategoryHandler)
+
+    // Product Routes
+    app.post('/api/products', [requireUser, validate(createProductValidation)], createProductHandler)
+
+    app.put('/api/products/:productId', [requireUser, validate(updateCategoryValidation)], updateCategoryHandler)
+
+    app.get('/api/products/:productId', [validate(getCategoryValidation)], getCategoryHandler)
+
+    app.get('/api/products/:productId', [validate(getCategoryValidation)], getCategoryHandler)
+
+    app.delete('/api/products/:productId', [requireUser, validate(deleteCategoryValidation)], deleteCategoryHandler)
 
 
 }

@@ -13,6 +13,10 @@ export async function findCategory(
     return CategoryModel.findOne(query, {}, options)
 }
 
+export async function getCategories() {
+    return CategoryModel.find().lean()
+}
+
 export async function findAndUpdateCategory(query: FilterQuery<CategoryInterface>, update: UpdateQuery<CategoryInterface>, options: QueryOptions) {
     return CategoryModel.findOneAndUpdate(query, update, options)
 }

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { CreateCategoryInput, UpdateCategoryInput } from '../../validations/category/category.validation';
-import { createCategory, deleteCategory, findAndUpdateCategory, findCategory } from '../../service/category/category.service';
+import { CreateCategoryInput, UpdateCategoryInput, ReadCategoryInput } from '../../validations/category/category.validation';
+import { createCategory, deleteCategory, findAndUpdateCategory, findCategory, getCategories } from '../../service/category/category.service';
 import { STATUS_CODES } from '../../utils/status';
 
 
@@ -30,7 +30,14 @@ export async function updateCategoryHandler(req: Request<UpdateCategoryInput['pa
     
 }
 
-export async function getCategoryHandler(req: Request<UpdateCategoryInput['params']>, res: Response) {
+export async function getAllCategoryHandler(req: Request, res: Response) {
+    
+    const categories = await getCategories()
+
+    return res.send(categories)
+}
+
+export async function getCategoryHandler(req: Request<ReadCategoryInput['params']>, res: Response) {
 
     const categoryId = req.params.categoryId
 

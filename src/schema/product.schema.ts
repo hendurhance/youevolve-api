@@ -8,7 +8,7 @@ export const ProductSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        default: () => `category_${nanoid}`
+        default: () => `product_${nanoid()}`
     },
     user: {
         type: mongoose.Schema.Types.ObjectId, 
@@ -27,11 +27,11 @@ export const ProductSchema = new mongoose.Schema({
         required: true
     },
     price: {
-        type: String,
+        type: Number,
         required: true
     },
     image: {
-        type: Number,
+        type: String,
         required: true
     }
     

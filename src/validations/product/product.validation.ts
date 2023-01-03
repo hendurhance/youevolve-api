@@ -9,10 +9,13 @@ const payload = {
             required_error: 'Description is required and cannot be empty.'
         }).max(255, 'Description must be no more than 255 characters long.'),
         price: number({
-            required_error: "Price is required and must be a number"
-        }),
+            required_error: 'Price is required and must be a number'
+        }).min(100, 'Price must be greater than NGN100'),
         image: string({
             required_error: 'Image is required and cannot be empty.'
+        }),
+        categoryId: string({
+            required_error: 'categoryId is required and cannot be empty.'
         })
     })
 }
